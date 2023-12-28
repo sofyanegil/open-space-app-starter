@@ -5,47 +5,26 @@
 import api from '../../utils/api';
 
 const ActionType = {
-  SET_AUTH_USER: 'SET_AUTH_USER',
-  UNSET_AUTH_USER: 'UNSET_AUTH_USER',
+  RECEIVE_USERS: 'RECEIVE_USERS',
 };
 
-function setAuthUserActionCreator(authUser) {
+function receiveUsersActionCreator(users) {
   return {
-    type: ActionType.SET_AUTH_USER,
+    type: ActionType.RECEIVE_USERS,
     payload: {
-      authUser,
+      users,
     },
   };
 }
 
-function unsetAuthUserActionCreator() {
-  return {
-    type: ActionType.UNSET_AUTH_USER,
-    payload: {
-      authUser: null,
-    },
-  };
-}
-
-function asyncSetAuthUser({ id, password }) {
-  return async (dispatch) => {
+function asyncRegisterUser({ id, name, password }) {
+  return async () => {
     try {
-      const token = await api.login({ id, password });
-      api.putAccessToken(token);
-      const authUser = await api.getOwnProfile();
-
-      dispatch(setAuthUserActionCreator(authUser));
+      await api.register({ id, name, password });
     } catch (error) {
       alert(error.message);
     }
   };
 }
 
-function asyncUnsetAuthUser() {
-  return (dispatch) => {
-    dispatch(unsetAuthUserActionCreator());
-    api.putAccessToken('');
-  };
-}
-
-export { ActionType, setAuthUserActionCreator, unsetAuthUserActionCreator, asyncSetAuthUser, asyncUnsetAuthUser };
+export { ActionType, receiveUsersActionCreator, asyncRegisterUser };

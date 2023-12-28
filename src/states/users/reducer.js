@@ -1,18 +1,15 @@
 /**
  * @TODO: Define reducer for the users state
  */
-
 import { ActionType } from './action';
 
-function authUserReducer(authUser = null, action = {}) {
+function usersReducer(users = [], action = {}) {
   switch (action.type) {
-    case ActionType.SET_AUTH_USER:
-      return action.payload.authUser;
-    case ActionType.UNSET_AUTH_USER:
-      return null;
+    case ActionType.RECEIVE_USERS:
+      return action.payload.users;
     default:
-      return authUser;
+      return users;
   }
 }
 
-export default authUserReducer;
+export default usersReducer;
